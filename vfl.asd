@@ -3,5 +3,6 @@
 	       (:file "p")
 	       (:file "a")
 	       (:file "c")
+	       (:file "r")
 	       (:file "v")
 	       ))

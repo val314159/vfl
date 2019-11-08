@@ -4,7 +4,7 @@
 (require 'vfl)
 (defpackage :test-package (:use vfl))
 (in-package :test-package)
-(ifel 1 2 3)
+(ife 1 2 3)
 (prn "SDF")
 (:L 1 2)
 (λ(x) x)

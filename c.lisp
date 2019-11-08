@@ -1,7 +1,7 @@
 (defpackage :c (:use :cl :p) (:nicknames :core)
 	    (:export #:pr #:prn #:fmt #:sfmt  #:peekc #:readc #:readp
 		     #:^^ #:len #:call #:recurse #:rcall #:rrecurse
-		     #:mv-list #:=== #:!=== #:if? #:if! #:ifel))
+		     #:mv-list #:=== #:!=== #:if? #:if! #:ife))
 (in-package :c)
 (defmacro mv-list(&rest $*)   (list* 'cl:multiple-value-list $*))
 (defmacro ^^ (&rest _*)       (list* 'cl:values _*))
@@ -9,7 +9,7 @@
 (defmacro if!  ($1 &rest $*)  (list* 'cl:unless $1 $*))
 (defmacro  === ($1 $2)        (list  'cl:eq  $1 $2   ))
 (defmacro !=== ($1 $2) (list 'cl:not (list 'cl:eq $1 $2)))
-(defmacro ifel (&rest _*)
+(defmacro ife (&rest _*)
   (list* 'cl:cond (rrecurse _* (λ (f x)
 				  (cl:case (len x)
 				    (0)
