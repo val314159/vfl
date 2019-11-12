@@ -1,14 +1,8 @@
 (:$ *routes* := (make-ht))
 
-(defmacro qr (method path expr)
-  #[ := #[ #/cl:gethash #[ #/cl:list method path ] #/*routes* ]
-        #[ #/λ #[ #/s ]
-            #[ #/declare #[ #/ignorable #[ #/s ] ] ]
-            expr  ] ])
-
 (defmacro r (method path expr)
   #[ := #[ #/cl:gethash #[ #/cl:list method path ] #/*routes* ]
-        #[ #/λ #[ #/s ] expr ] ])
+  •     #[ #/λ #[ #/s ] expr ] ])
 
 (defun not-found (e)
   (declare (ignore e))
