@@ -1,0 +1,20 @@
+A Very Fine Lisp - the name of this thing
+Makefile         - type "make" to test it all
+README.md        - top level documentation
+a.lisp           - package of "all" lisp packages
+app.js           - webinterface application
+c.lisp           - package of "core"
+index.html       - real simple index file
+files.txt        - this file
+main.html        - webinterface HTML
+p.lisp           - define lisp packages
+r.lisp           - "reader" lisp package
+run.lisp         - "reader" lisp package
+styles.css       - webinterface stylesheets
+t.lisp           - package of "all" lisp packages
+utils.sh         - shell utils
+v.asd            - ASDF definition file
+vl.lisp          - lame loader if you don't have ASDF or Quicklisp
+w.lisp           - simple web launcher
+wi.lisp          - web interface
+wi9.vfl          - vfl web server

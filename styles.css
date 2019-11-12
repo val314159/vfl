@@ -1,0 +1,35 @@
+body {
+    background: lightgreen;
+}
+#directory {
+    float: left;  
+    height: 100%;
+    background: lightblue;
+    border: 1px darkgrey dashed;
+    z-index: 1.1;
+}
+#frame0{
+    height: 50%;    
+}
+#output{
+    font-family: monospace;
+    background: lightgrey;
+    border: 1px darkgrey dotted;
+    height: 50%;    
+}
+#filename, 
+#content {
+    font-family: monospace;
+    background: yellow;
+    border: 1px darkgrey dotted;
+}
+#content {
+    height: 100%;
+}
+#filename:focus, 
+#content:focus {
+    outline: none;
+    font-family: monospace;
+    background: white;
+    border: 1px red dotted;
+}
