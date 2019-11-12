@@ -79,7 +79,10 @@
   (let* ((c (readc s))
 	 (m (get-macroc c)))
     (if3 m (call m s c)
-	 (read-symbol s c))))
+	 (let ((sym (read-symbol s c)))
+	   (if3 (is (peekc s) *op*)
+		(cons sym (read-expr s))
+		sym)))))
 
 (defun xload-stream (&optional s)
   (handler-case (@@ (eval (macroexpand (read-expr s)))

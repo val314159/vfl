@@ -1,6 +1,7 @@
-(:$ *routes* := (make-ht))
+(:$ *routes* := make-ht())
 
-;;(prn (q prn(10095)))
+(prn (q prn(10095)))
+prn(10096)
 
 ;;(eval (q prn(10092)))
 
