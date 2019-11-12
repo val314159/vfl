@@ -1,5 +1,11 @@
 (:$ *routes* := (make-ht))
 
+;;(prn (q prn(10095)))
+
+;;(eval (q prn(10092)))
+
+;;(@@ prn(10091))
+
 (defmacro r (method path expr)
   #[ := #[ #/cl:gethash #[ #/cl:list method path ] #/*routes* ]
   •     #[ #/cl:lambda  #[ #/s ] expr ] ])

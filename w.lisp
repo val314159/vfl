@@ -5,8 +5,9 @@
 (cl:require (cl:quote vfl))
 (cl:in-package :vu)
 (install-macro-chars)
-(defun run-program (&rest rest)
-  (uiop:wait-process (uiop:launch-program (apply #λconcat-string rest))))
+;;(defun run-program (&rest rest)
+;;  (uiop:wait-process (uiop:launch-program (apply #λconcat-string rest))))
 (load-file "wi")
-(launch)
-(loop (sleep 60))
+;;(launch)
+;;(loop (sleep 60))
+
