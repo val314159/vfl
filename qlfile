@@ -1,0 +1,4 @@
+dist ultralisp http://dist.ultralisp.org/ultralisp/20191112022503/distinfo.txt
+ultralisp :all :latest
+github vfl val314159/vfl
+github woo fukamachi/woo

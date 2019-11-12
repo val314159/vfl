@@ -1,4 +1,4 @@
-(defpackage :c        (:use :cl))
-(defpackage :r        (:use :c))
-(defpackage :vfl      (:use :c :r) (:nicknames :v :a))
-(defpackage :cfl-user (:use :v)    (:nicknames :vu))
+(defpackage :c  (:use :cl)   (:nicknames :vfl-core))
+(defpackage :r  (:use :c)    (:nicknames :vfl-read))
+(defpackage :v  (:use :c :r) (:nicknames :vfl-all :vfl))
+(defpackage :vu (:use :v)    (:nicknames :vfl-user))
