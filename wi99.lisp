@@ -38,52 +38,52 @@
 	#[ 200 heads #[ data ] ])
     (error () (not-found #f))))
 
-(defun read-body (e)
-  (prn e)
-  (concat-string
-   (loop :for n :from 0 :below { e ? :content-length }
-	 :collect (code-char (read-byte { e ? :raw-body } )))))
+defun(read-body (e)
+  prn(e)
+  concat-string(
+    loop(:for n :from 0 :below (e ? :content-length)
+	 :collect code-char(read-byte(e ? :raw-body)))))
 
-(defun save-file (e)
-  (fmt "save file ~a" { e ? :path-info })
-  (let* ((contents { read-body e })
-	 (path     { e ? :path-info })
-	 (filename {"d/" concat-string { path subseq 3 } }))
-    (fmt "path ~a"     { e ? :path-info })
-    (fmt "filename ~s" filename)
-    (fmt "contents ~s" contents)
-    (with-open-file (stream filename :direction :output
-				     :if-exists :supersede
-				     :if-does-not-exist :create)
-      (write-line contents stream))
+defn(save-file(e)
+  fmt("save file ~a" (e ? :path-info))
+  let*(((contents (read-body e))
+        (path     (e ? :path-info))
+	(filename ("d/" concat-string (path subseq 3)))
+    fmt("path ~a" (e ? :path-info))
+    fmt("filename ~s" filename)
+    fmt("contents ~s" contents)
+    with-open-file((stream filename :direction :output
+			     :if-exists :supersede
+			     :if-does-not-exist :create)
+      write-line(contents stream))
     #/(200 (:content-type "text/plain") ("[]"))))
 
-(defun serve-file (e)
-  (serve-path { e ? :path-info }))
+defn(serve-file(e)
+  (serve-path (e ? :path-info)))
 
-(defun serve-routes (e)
-  (call ( gethash #[ { e ? :request-method }
-		  •  { e ? :path-info      } ]
-		  *routes*
-		  #λnot-found )
+defn(serve-routes(e)
+  call(gethash ((e ? :request-method)
+		(e ? :path-info))
+		*routes*
+		#λnot-found)
 	e))
 
-(:$ *prefixes* := #[ #t #λserve-routes ])
+:G(*prefixes* := #[ #t #λserve-routes ])
 
-(defun serve-request (e &optional
-		      (path    { e ? :path-info })
-		      (prefixes *prefixes*))
-  (if2 { prefixes }
-       (if3 { { :0 prefixes } is #t }
-	    (call (:1 prefixes) e)
-	    (if3 { path startswith { :0 prefixes } }
-		 (call (:1 prefixes) e)
-		 (serve-request e path (:2- prefixes))))))
+defn serve-request(e &optional
+		      path    (e ? :path-info)
+		      prefixes *prefixes*):
+  if2 prefixes:
+       if3 :0(prefixes) is #t:
+	    call :1(prefixes) e
+	    if3 path startswith :0(prefixes):
+		 call :1(prefixes) e
+		 serve-request e path :2-(prefixes)
 
-(defun launch ()
-  (clack:clackup #λserve-request
-		 :server :woo
-		 :use-default-middlewares #f))
+defn(launch()
+  clack:clackup(#λserve-request
+		:server :woo
+		:use-default-middlewares #f))
 
 #|
 (r :GET "/favicon.ico"
