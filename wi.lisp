@@ -2,7 +2,7 @@
 
 (defmacro r (method path expr)
   #[ := #[ #/cl:gethash #[ #/cl:list method path ] #/*routes* ]
-  •     #[ #/λ #[ #/s ] expr ] ])
+  •     #[ #/cl:lambda  #[ #/s ] expr ] ])
 
 (defun not-found (e)
   (declare (ignore e))
