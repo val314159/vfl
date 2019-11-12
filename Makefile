@@ -1,9 +1,15 @@
-wi: clean d w
+wi: clean w
+qqxyz: s d ; sbcl --noinform --disable-ldb --load ~/quicklisp/setup --script w1.lisp
+xyz: s d ; qlot run < w2.lisp
+superclean: ; rm -fr ~/.sbcl* ~/quicklisp ~/.quicklisps \
+	quicklisp ~/.ros ~/.roswell .qlot qlfile.lock
+reinstall: superclean install
+install: ; ros install qlot && qlot install
 all:  ; sbcl --script t.lisp --eval '(quit)'
 	ecl    --load t.lisp --eval '(quit)'
 	ccl64  --load t.lisp --eval '(quit)'
-clean:; rm -fr s u d *~
-w: s  ; sbcl --script w.lisp
+clean:; rm -fr s d *~
+w: d s; sbcl --script w.lisp
 d:    ; mkdir -p d
 s:    ; mkdir -p s
 	cd s ; ln ../*.html .

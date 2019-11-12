@@ -128,8 +128,8 @@
 	 (if2 (is c #\() (fmt "~a:~a:errorrrr" *load-pathname* (file-position s)))
 	 (if3 v (cons (car v) x) x))))
 
-(defun read-delimited-list (e &optional s)
-  (read-dlist (e s)))
+;;(defun read-delimited-list (e &optional s)
+;;  (read-dlist (e s)))
 
 (:$ *infix-ops* := (q (cl:list)))
 
@@ -171,8 +171,8 @@
   (set-disp-macroc *ot* *ct* (λ (s c d)
 				(list quot (read-expr s))))
   (set-macroc *em* (λ (s c)
-		     (list (q not) (read-expr s)))
-	      #t)
+		      (list (q not) (read-expr s)))
+	      cl:t)
   (set-macroc *bl* (λ (s c) (values))))
 
 (defun syntax2 ()

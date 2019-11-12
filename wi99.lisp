@@ -1,14 +1,16 @@
+#|
 (:$ *routes* := (make-ht))
-
-(defmacro qr (method path expr)
-  #[ := #[ #/cl:gethash #[ #/cl:list method path ] #/*routes* ]
-        #[ #/λ #[ #/s ]
-            #[ #/declare #[ #/ignorable #[ #/s ] ] ]
-            expr  ] ])
 
 (defmacro r (method path expr)
   #[ := #[ #/cl:gethash #[ #/cl:list method path ] #/*routes* ]
-        #[ #/λ #[ #/s ] expr ] ])
+  •     #[ #/λ                             #[ #/s ]
+  •            #[ #/declare #[ #/ignorable #[ #/s ] ] ]
+  •                                           expr  ] ])
+(defmacro zr (method path &rest rest)
+  #[:= #[ #/cl:gethash #[ #/cl:list method path ] #/*routes* ]
+        ( cl:list* #/λ #[                                #[ #/s ]
+                       #[ #/cl:declare #[ #/cl:ignorable #[ #/s ] ] ]
+                          rest ] ) ] )
 
 (defun not-found (e)
   (declare (ignore e))
@@ -16,18 +18,18 @@
 
 (defun serve-path (path)
   (fmt "serve path ~a" path)
-  (if3 {probe-file { path subseq 1 } } #t
-       (if2 { path endswith ".md.html" }
-	    (run-program "grip "
-			 { path subseq 1 { { len path } - 5 } }
-			 " --export "
-			 { path subseq 1 } )))
-  (if3 {probe-file { path subseq 1 } } #t
-       (if2 { path endswith ".vfl.out" }
-	    (run-program "sbcl --script run.lisp -- "
-			 { path subseq 1 { { len path } - 4 } }
-			 " >&  "
-			 { path subseq 1 } )))
+  ;;(if3 {probe-file { path subseq 1 } } #t
+  ;;     (if2 { path endswith ".md.html" }
+;;	    (xrun-program "grip "
+;;			 { path subseq 1 { { len path } - 5 } }
+;;			 " --export "
+;;			 { path subseq 1 } )))
+;;  (if3 {probe-file { path subseq 1 } } #t
+;;       (if2 { path endswith ".vfl.out" }
+;;	    (xrun-program "sbcl --script run.lisp -- "
+;;			 { path subseq 1 { { len path } - 4 } }
+;;			 " >&  "
+;;			 { path subseq 1 } )))
   (handler-case
       (let* ((fname { path subseq 1 })
 	     (data  { #λconcat-string ← { read-stream { open fname } } })
@@ -83,9 +85,7 @@
 		 :server :woo
 		 :use-default-middlewares #f))
 
-(prn (macroexpand-1 '(r :GET "/favicon.ico"
-   #/(200 (:content-type "text/plain") ("")))))
-
+#|
 (r :GET "/favicon.ico"
    #/(200 (:content-type "text/plain") ("")))
 
@@ -100,7 +100,9 @@
 
 (r :GET "/ls-la"
    #[ 200 #/(:content-type "application/json") #[ (ls-la "d/*.*") ] ])
+|#
 
 {*prefixes* := (list* "/d/" #λserve-file *prefixes*)}
 {*prefixes* := (list* "/s/" #λserve-file *prefixes*)}
 {*prefixes* := (list* "/u/" #λsave-file  *prefixes*)}
+|#

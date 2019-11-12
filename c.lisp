@@ -10,7 +10,7 @@
 (cl:set-macro-character
  #\λ (cl:lambda (s c) (cl:declare (cl:ignore s c)) (cl:quote cl:lambda)))
 (cl:defmacro |λ| (a cl:&body b)
-  (cl:list* '|λ| a
+  (cl:list* '|λ|  a
 	    (cl:list 'cl:declare (cl:list 'cl:ignorable a))
 	    b))
 (cl:set-dispatch-macro-character

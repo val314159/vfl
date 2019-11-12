@@ -1,0 +1,8 @@
+(ql:quickload '(:woo :clack :vfl) :silent cl:t)
+(cl:in-package :vu)
+(install-macro-chars)
+(defun run-program (&rest rest)
+  (uiop:wait-process (uiop:launch-program (apply #λconcat-string rest))))
+(load-file "wi99")
+(launch)
+(loop (sleep 60))
