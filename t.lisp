@@ -1,5 +1,5 @@
 (require 'asdf) (push (truename ".") asdf:*central-registry*)
-(require 'v)
+(require 'vfl)
 (in-package :vu)
 (install-macro-chars)
 (print '(prn
