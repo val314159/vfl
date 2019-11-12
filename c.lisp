@@ -7,6 +7,8 @@
 		    set-macro-character set-dispatch-macro-character
 		    read read-preserving-whitespace read-delimited-list
 		    read-line)))
+(cl:defvar true  cl:t)
+(cl:defvar false cl:nil)
 (cl:set-macro-character
  #\λ (cl:lambda (s c) (cl:declare (cl:ignore s c)) (cl:quote cl:lambda)))
 (cl:defmacro |λ| (a cl:&body b)
