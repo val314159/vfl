@@ -1,4 +1,4 @@
-#qq: xyz
+##qq: xyz
 qq2: ; ccl64 --load w.lisp --eval '(quit)'
 wi: clean w
 qqxyz: s d ; sbcl --noinform --disable-ldb --load ~/quicklisp/setup --script w1.lisp

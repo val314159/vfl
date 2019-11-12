@@ -13,19 +13,19 @@ prn(10096)
 
 (defun not-found (e)
   (declare (ignore e))
-  #/(404 (:content-type "text/plain") ("not found")))
+  #/(404 (:content-type "text/html") ("<a href=/>not found</a>")))
 
 (defun serve-path (path)
   (fmt "serve path ~a" path)
   (if3 {probe-file { path subseq 1 } } #t
        (if2 { path endswith ".md.html" }
-	    (run-program "grip "
+	    (run-prog    "grip"
 			 { path subseq 1 { { len path } - 5 } }
-			 " --export "
+			 "--export"
 			 { path subseq 1 } )))
   (if3 {probe-file { path subseq 1 } } #t
        (if2 { path endswith ".vfl.out" }
-	    (run-program "sbcl --script run.lisp -- "
+	    (run-prog    "sbcl" "--script" "run.lisp" "--"
 			 { path subseq 1 { { len path } - 4 } }
 			 " >&  "
 			 { path subseq 1 } )))
