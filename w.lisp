@@ -4,13 +4,13 @@
 (ql:quickload (cl:quote (:woo :clack)) :silent cl:t)
 (cl:require (cl:quote vfl))
 (cl:in-package :vu)
-(install-macro-chars)
-(defun run-prog (&rest rest)
-  #+ ccl                    (ccl:run-program (car rest) (cdr rest))
-  #+ ecl                    (uiop:launch-program (apply #λconcat-string rest))
-  #+sbcl (uiop:wait-process (uiop:launch-program (apply #λconcat-string rest)))
-  )
-(load-file "wi")
-(launch)
-(loop (sleep 60))
 
+(defun run-prog (&rest rest)
+  #+sbcl (uiop:wait-process (uiop:launch-program (fmts* "~{~a ~}" rest)))
+  #+ecl                     (uiop:launch-program (fmts* "~{~a ~}" rest))
+  #+ccl  (ccl:run-program (car rest) (cdr rest)))
+(install-macro-chars)
+<syntax3>
+<load-file "wi">
+<launch>
+<loop <sleep 60>>

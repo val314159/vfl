@@ -182,7 +182,7 @@
   (set-macroc *dq* (function read-string))
   (set-macroc *sm* (λ (s c) (^^ (read-line s))))
   (set-macroc *op* (λ (s c) (read-dlist *cp* s)))
-  (set-macroc *lt* (λ (s c) (read-dlist *cp* s)))
+  (set-macroc *lt* (λ (s c) (read-dlist *gt* s)))
   (set-macroc *cp* (λ (s c) (error "Extra ')'")))
   (set-macroc *ob* (λ (s c) (infix (read-dlist *cb* s))))
   (set-macroc *cb* (λ (s c) (error "Extra '}'")))
@@ -198,6 +198,10 @@
 
 (defun syntax2 ()
   (set-macroc *os* (λ (s c) (read-dlist *cs* s)))
+  (set-macroc *op* (λ (s c) (infix (read-dlist *cp* s)))))
+
+(defun syntax3 ()
+  (set-macroc *os* (λ (s c) (cons (q list) (read-dlist *cs* s))))
   (set-macroc *op* (λ (s c) (infix (read-dlist *cp* s)))))
 
 (export-package)

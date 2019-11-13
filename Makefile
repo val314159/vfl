@@ -1,5 +1,5 @@
 ##qq: xyz
-qq2: ; ccl64 --load w.lisp --eval '(quit)'
+qq2: clean d s ; ccl64 --load w.lisp --eval '(quit)'
 wi: clean w
 qqxyz: s d ; sbcl --noinform --disable-ldb --load ~/quicklisp/setup --script w1.lisp
 xyz: s d ; qlot run < w2.lisp
