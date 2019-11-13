@@ -17,38 +17,38 @@ prn<10096>
 
 <defun serve-path <path>
   <fmt "serve path ~a" path>
-  <if3 {probe-file { path subseq 1 } } #t
-       <if2 { path endswith ".md.html" }
+  <if3 (probe-file ( path subseq 1 ) ) #t
+       <if2 ( path endswith ".md.html" )
 	    <run-prog    "grip"
-			 { path subseq 1 { { len path } - 5 } }
+			 ( path subseq 1 ( ( len path ) - 5 ) )
 			 "--export"
-			 { path subseq 1 } >>>
-  <if3 {probe-file { path subseq 1 } } #t
-       <if2 { path endswith ".vfl.out" }
+			 ( path subseq 1 ) >>>
+  <if3 (probe-file ( path subseq 1 ) ) #t
+       <if2 ( path endswith ".vfl.out" )
 	    <run-prog    "sbcl" "--script" "run.lisp" "--"
-			 { path subseq 1 { { len path } - 4 } }
+			 ( path subseq 1 ( ( len path ) - 4 ) )
 			 " >&  "
-			 { path subseq 1 } >>>
+			 ( path subseq 1 ) >>>
   <handler-case
-      <let* <<fname { path subseq 1 }>
-	     <data  { #λconcat-string ← { read-stream { open fname } } }>
+      <let* <<fname ( path subseq 1 )>
+	     <data  ( #λconcat-string ← ( read-stream ( open fname ) ) )>
 	     <heads #[ :content-type "text/html"
-		       :content-length { len data } ]>>
+		       :content-length ( len data ) ]>>
 	#[ 200 heads #[ data ] ]>
     <error <> <not-found #f>>>>
 
 <defun read-body <e>
   <prn e>
   <concat-string
-   <loop :for n :from 0 :below { e ? :content-length }
-	 :collect <code-char <read-byte { e ? :raw-body } >>>>>
+   <loop :for n :from 0 :below ( e ? :content-length )
+	 :collect <code-char <read-byte ( e ? :raw-body ) >>>>>
 
 <defun save-file <e>
-  <fmt "save file ~a" { e ? :path-info }>
-  <let* <<contents { read-body e }>
-	 <path     { e ? :path-info }>
-	 <filename {"d/" concat-string { path subseq 3 } }>>
-    <fmt "path ~a"     { e ? :path-info }>
+  <fmt "save file ~a" ( e ? :path-info )>
+  <let* <<contents ( read-body e )>
+	 <path     ( e ? :path-info )>
+	 <filename ("d/" concat-string ( path subseq 3 ) )>>
+    <fmt "path ~a"     ( e ? :path-info )>
     <fmt "filename ~s" filename>
     <fmt "contents ~s" contents>
     <with-open-file <stream filename :direction :output
@@ -58,11 +58,11 @@ prn<10096>
     #/<200 <:content-type "text/plain"> <"[]">>>>
 
 <defun serve-file <e>
-  <serve-path { e ? :path-info }>>
+  <serve-path ( e ? :path-info )>>
 
 <defun serve-routes <e>
-  <call < gethash #[ { e ? :request-method }
-		  •  { e ? :path-info      } ]
+  <call < gethash #[ ( e ? :request-method )
+		  •  ( e ? :path-info      ) ]
 		  *routes*
 		  #λnot-found >
 	e>>
@@ -70,12 +70,12 @@ prn<10096>
 <:$ *prefixes* := #[ #t #λserve-routes ]>
 
 <defun serve-request <e &optional
-		      <path    { e ? :path-info }>
+		      <path    ( e ? :path-info )>
 		      <prefixes *prefixes*>>
-  <if2 { prefixes }
-       <if3 { { :0 prefixes } is #t }
+  <if2 ( prefixes )
+       <if3 ( ( :0 prefixes ) is #t )
 	    <call <:1 prefixes> e>
-	    <if3 { path startswith { :0 prefixes } }
+	    <if3 ( path startswith ( :0 prefixes ) )
 		 <call <:1 prefixes> e>
 		 <serve-request e path <:2- prefixes>>>>>>
 
@@ -102,6 +102,6 @@ prn<10096>
 <r :GET "/ls-la"
    #[ 200 #/<:content-type "application/json"> #[ <ls-la "d/*.*"> ] ]>
 
-{*prefixes* := <list* "/d/" #λserve-file *prefixes*>}
-{*prefixes* := <list* "/s/" #λserve-file *prefixes*>}
-{*prefixes* := <list* "/u/" #λsave-file  *prefixes*>}
+(*prefixes* := <list* "/d/" #λserve-file *prefixes*>)
+(*prefixes* := <list* "/s/" #λserve-file *prefixes*>)
+(*prefixes* := <list* "/u/" #λsave-file  *prefixes*>)
